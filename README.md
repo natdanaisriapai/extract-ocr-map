@@ -1,11 +1,11 @@
-# GAM Map Landing - OCR Data Extraction Pipeline
+# Extract-OCR-Map - OCR Data Extraction Pipeline
 
 โปรเจคนี้เป็นระบบสกัดข้อมูลจากเอกสารที่ดิน (OCR) และแปลงเป็นข้อมูล JSON สำหรับการใช้งานต่อ โดยใช้ OpenAI GPT และ LlamaParse API
 
 ## โครงสร้างโปรเจค
 
 ```
-gam-map-landing/
+extract-ocr-map/
 ├── data/
 │   ├── data-input/          # ไฟล์ต้นฉบับ (PDF, DOCX, etc.)
 │   ├── data-parsed-md/      # ไฟล์ที่แปลงเป็น Markdown
