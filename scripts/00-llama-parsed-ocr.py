@@ -17,9 +17,9 @@ openai_api_key = config.get("OPENAI_API_KEY")
 openai_model = config.get("OPENAI_MODEL")
 llama_cloud_api_key = config.get("LLAMA_CLOUD_API_KEY")
 
-# Set up paths
-input_dir = os.path.abspath("./data/data-input")
-output_dir = os.path.abspath("./data/data-parsed-md")
+# Set up paths from environment variables or use defaults
+input_dir = os.path.abspath(os.getenv("INPUT_DIR", "./data/data-input"))
+output_dir = os.path.abspath(os.getenv("PARSED_MD_DIR", "./data/data-parsed-md"))
 
 # Initialize OpenAI (GPT-4o) LLM
 llm = OpenAI(model=openai_model)
