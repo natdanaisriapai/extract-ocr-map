@@ -2,9 +2,9 @@ import os
 import json
 from pathlib import Path
 
-# Set up paths
-input_dir = os.path.abspath("./data/data-output-json")
-output_dir = os.path.abspath("./data/json-merge")
+# Set up paths from environment variables or use defaults
+input_dir = os.path.abspath(os.getenv("OUTPUT_JSON_DIR", "./data/data-output-json"))
+output_dir = os.path.abspath(os.getenv("MERGED_JSON_DIR", "./data/json-merge"))
 output_file = os.path.join(output_dir, "merged_land_deeds.json")
 
 def merge_json_files():
