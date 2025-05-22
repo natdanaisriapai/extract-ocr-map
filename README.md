@@ -23,8 +23,8 @@ extract-ocr-map/
 ## การติดตั้ง
 
 1. ติดตั้ง Python packages ที่จำเป็น:
-```bash
 # วิธีที่ 1: ติดตั้งจาก requirements.txt (แนะนำ)
+```bash
 pip install -r requirements.txt
 ```
 # วิธีที่ 2: ติดตั้งทีละ package
@@ -35,11 +35,11 @@ pip install openai python-dotenv llama-parse llama-index
 2. สร้างไฟล์ `.env` ในโฟลเดอร์หลักของโปรเจค และกำหนดค่า API keys:
 ```env
 # OpenAI Configuration
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4
+OPENAI_API_KEY="your_openai_api_key_here"
+OPENAI_MODEL="gpt-4o"
 
 # Llama Cloud Configuration
-LLAMA_CLOUD_API_KEY=your_llama_cloud_api_key_here
+LLAMA_CLOUD_API_KEY="your_llama_cloud_api_key_here"
 ```
 
 > **หมายเหตุ**: คุณต้องมี API keys ที่ถูกต้องจาก OpenAI และ Llama Cloud เพื่อใช้งานโปรเจคนี้
