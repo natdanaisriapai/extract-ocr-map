@@ -12,9 +12,9 @@ openai_model = config.get("OPENAI_MODEL")
 # Initialize OpenAI client
 client = OpenAI(api_key=openai_api_key)
 
-# Set up paths
-input_dir = os.path.abspath("./data/data-parsed-md")
-output_dir = os.path.abspath("./data/data-output-json")
+# Set up paths from environment variables or use defaults
+input_dir = os.path.abspath(os.getenv("PARSED_MD_DIR", "./data/data-parsed-md"))
+output_dir = os.path.abspath(os.getenv("OUTPUT_JSON_DIR", "./data/data-output-json"))
 
 # Create output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
