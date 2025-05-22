@@ -14,15 +14,17 @@ extract-ocr-map/
 ├── script/
 │   ├── 00-llama-parsed-ocr.py    # แปลงเอกสารเป็น Markdown
 │   ├── 01-convert-md_to_json.py  # แปลง Markdown เป็น JSON
-│   └── 03-merge-json.py          # รวมไฟล์ JSON
+│   └── 02-merge-json.py          # รวมไฟล์ JSON
+├── main.py                  # สคริปต์หลักสำหรับรัน pipeline
+├── requirements.txt         # รายการ packages ที่จำเป็น
 └── .env                     # ไฟล์ตั้งค่า API keys
 ```
 
 ## การติดตั้ง
 
 1. ติดตั้ง Python packages ที่จำเป็น:
-# วิธีที่ 1: ติดตั้งจาก requirements.txt (แนะนำ)
 ```bash
+# วิธีที่ 1: ติดตั้งจาก requirements.txt (แนะนำ)
 pip install -r requirements.txt
 ```
 # วิธีที่ 2: ติดตั้งทีละ package
@@ -34,11 +36,13 @@ pip install openai python-dotenv llama-parse llama-index
 ```env
 # OpenAI Configuration
 OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4o
+OPENAI_MODEL=gpt-4
 
 # Llama Cloud Configuration
 LLAMA_CLOUD_API_KEY=your_llama_cloud_api_key_here
 ```
+
+> **หมายเหตุ**: คุณต้องมี API keys ที่ถูกต้องจาก OpenAI และ Llama Cloud เพื่อใช้งานโปรเจคนี้
 
 ## ขั้นตอนการใช้งาน
 
@@ -46,31 +50,44 @@ LLAMA_CLOUD_API_KEY=your_llama_cloud_api_key_here
 - นำไฟล์เอกสารที่ต้องการประมวลผล (JPG, DOCX, PPTX, etc.) ไปวางในโฟลเดอร์ `data/data-input/`
 - สามารถจัดไฟล์เป็นโฟลเดอร์ย่อยได้
 
-### 2. แปลงเอกสารเป็น Markdown
-รันคำสั่ง:
-```bash
-python scripts/00-llama-parsed-ocr.py
-```
-- สคริปต์จะอ่านไฟล์จาก `data/data-input/`
-- แปลงเอกสารเป็น Markdown โดยใช้ LlamaParse และ OpenAI
-- บันทึกผลลัพธ์ใน `data/data-parsed-md/`
+### 2. รัน Pipeline
+มี 2 วิธีในการรัน pipeline:
 
-### 3. แปลง Markdown เป็น JSON
-รันคำสั่ง:
+#### วิธีที่ 1: รันแบบง่าย (ใช้ default paths)
 ```bash
-python scripts/01-convert-md_to_json.py
+python main.py
 ```
-- สคริปต์จะอ่านไฟล์ Markdown จาก `data/data-parsed-md/`
-- แปลงข้อมูลเป็น JSON โดยใช้ OpenAI GPT
-- บันทึกผลลัพธ์ใน `data/data-output-json/`
+- จะใช้ default paths ทั้งหมด:
+  - Input: `./data/data-input/`
+  - Parsed MD: `./data/data-parsed-md/`
+  - Output JSON: `./data/data-output-json/`
+  - Merged JSON: `./data/json-merge/`
 
-### 4. รวมไฟล์ JSON
-รันคำสั่ง:
+#### วิธีที่ 2: รันแบบกำหนด paths เอง
 ```bash
-python scripts/02-merge-json.py
+python main.py \
+  --input-dir ./custom/input \
+  --parsed-md-dir ./custom/parsed-md \
+  --output-json-dir ./custom/json \
+  --merged-json-dir ./custom/merged
 ```
-- สคริปต์จะรวมไฟล์ JSON ทั้งหมดจาก `data/data-output-json/`
-- สร้างไฟล์ JSON เดียวใน `data/json-merge/merged_land_deeds.json`
+
+### 3. ขั้นตอนการทำงานของ Pipeline
+Pipeline จะทำงานตามลำดับดังนี้:
+
+1. **ขั้นตอนที่ 1**: แปลงเอกสารเป็น Markdown
+   - อ่านไฟล์จาก `data/data-input/`
+   - แปลงเอกสารเป็น Markdown โดยใช้ LlamaParse และ OpenAI
+   - บันทึกผลลัพธ์ใน `data/data-parsed-md/`
+
+2. **ขั้นตอนที่ 2**: แปลง Markdown เป็น JSON
+   - อ่านไฟล์ Markdown จาก `data/data-parsed-md/`
+   - แปลงข้อมูลเป็น JSON โดยใช้ OpenAI GPT
+   - บันทึกผลลัพธ์ใน `data/data-output-json/`
+
+3. **ขั้นตอนที่ 3**: รวมไฟล์ JSON
+   - รวมไฟล์ JSON ทั้งหมดจาก `data/data-output-json/`
+   - สร้างไฟล์ JSON เดียวใน `data/json-merge/merged_land_deeds.json`
 
 ## โครงสร้างข้อมูล JSON
 
@@ -97,6 +114,34 @@ python scripts/02-merge-json.py
   ]
 }
 ```
+
+## การแก้ไขปัญหา
+
+1. **ปัญหา API Keys**:
+   - ตรวจสอบว่ามีไฟล์ `.env` ในโฟลเดอร์หลักของโปรเจค
+   - ตรวจสอบว่า API keys ถูกต้องและยังไม่หมดอายุ
+   - ตรวจสอบว่า model ที่ใช้ (`OPENAI_MODEL`) ถูกต้อง
+
+2. **ปัญหาไฟล์ไม่พบ**:
+   - ตรวจสอบว่าไฟล์อยู่ในโฟลเดอร์ `data/data-input/`
+   - ตรวจสอบสิทธิ์การเข้าถึงไฟล์
+   - ตรวจสอบว่า path ที่ระบุถูกต้อง
+
+3. **ปัญหา API**:
+   - ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต
+   - ตรวจสอบโควต้าการใช้งาน API
+   - ตรวจสอบ log file สำหรับรายละเอียดข้อผิดพลาด
+
+4. **ปัญหา JSON ไม่ถูกต้อง**:
+   - ตรวจสอบรูปแบบของไฟล์ Markdown ต้นฉบับ
+   - ตรวจสอบการตอบกลับจาก OpenAI API
+   - ตรวจสอบ log file สำหรับรายละเอียดข้อผิดพลาด
+
+## Log Files
+
+- Pipeline จะสร้าง log file ในรูปแบบ `pipeline_YYYYMMDD_HHMMSS.log`
+- Log file จะเก็บข้อมูลการทำงานทั้งหมด รวมถึงข้อผิดพลาดที่เกิดขึ้น
+- ตรวจสอบ log file เพื่อดูรายละเอียดการทำงานและแก้ไขปัญหา
 
 ## หมายเหตุ
 
