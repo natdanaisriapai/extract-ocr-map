@@ -7,7 +7,7 @@
 ```
 extract-ocr-map/
 ├── data/
-│   ├── data-input/          # ไฟล์ต้นฉบับ (PDF, DOCX, etc.)
+│   ├── data-input/          # ไฟล์ต้นฉบับ (JPG, DOCX, etc.)
 │   ├── data-parsed-md/      # ไฟล์ที่แปลงเป็น Markdown
 │   ├── data-output-json/    # ไฟล์ JSON แยกตามเอกสาร
 │   └── json-merge/          # ไฟล์ JSON รวมทั้งหมด
