@@ -21,11 +21,12 @@ extract-ocr-map/
 ## การติดตั้ง
 
 1. ติดตั้ง Python packages ที่จำเป็น:
-```bash
 # วิธีที่ 1: ติดตั้งจาก requirements.txt (แนะนำ)
+```bash
 pip install -r requirements.txt
-
+```
 # วิธีที่ 2: ติดตั้งทีละ package
+```bash
 pip install openai python-dotenv llama-parse llama-index
 ```
 
@@ -33,7 +34,7 @@ pip install openai python-dotenv llama-parse llama-index
 ```env
 # OpenAI Configuration
 OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4  # หรือ gpt-3.5-turbo
+OPENAI_MODEL=gpt-4o
 
 # Llama Cloud Configuration
 LLAMA_CLOUD_API_KEY=your_llama_cloud_api_key_here
@@ -42,13 +43,13 @@ LLAMA_CLOUD_API_KEY=your_llama_cloud_api_key_here
 ## ขั้นตอนการใช้งาน
 
 ### 1. เตรียมไฟล์ต้นฉบับ
-- นำไฟล์เอกสารที่ต้องการประมวลผล (PDF, DOCX, PPTX, etc.) ไปวางในโฟลเดอร์ `data/data-input/`
+- นำไฟล์เอกสารที่ต้องการประมวลผล (JPG, DOCX, PPTX, etc.) ไปวางในโฟลเดอร์ `data/data-input/`
 - สามารถจัดไฟล์เป็นโฟลเดอร์ย่อยได้
 
 ### 2. แปลงเอกสารเป็น Markdown
 รันคำสั่ง:
 ```bash
-python script/00-llama-parsed-ocr.py
+python scripts/00-llama-parsed-ocr.py
 ```
 - สคริปต์จะอ่านไฟล์จาก `data/data-input/`
 - แปลงเอกสารเป็น Markdown โดยใช้ LlamaParse และ OpenAI
@@ -57,7 +58,7 @@ python script/00-llama-parsed-ocr.py
 ### 3. แปลง Markdown เป็น JSON
 รันคำสั่ง:
 ```bash
-python script/01-convert-md_to_json.py
+python scripts/01-convert-md_to_json.py
 ```
 - สคริปต์จะอ่านไฟล์ Markdown จาก `data/data-parsed-md/`
 - แปลงข้อมูลเป็น JSON โดยใช้ OpenAI GPT
@@ -66,7 +67,7 @@ python script/01-convert-md_to_json.py
 ### 4. รวมไฟล์ JSON
 รันคำสั่ง:
 ```bash
-python script/03-merge-json.py
+python scripts/02-merge-json.py
 ```
 - สคริปต์จะรวมไฟล์ JSON ทั้งหมดจาก `data/data-output-json/`
 - สร้างไฟล์ JSON เดียวใน `data/json-merge/merged_land_deeds.json`
