@@ -1,0 +1,28 @@
+# Core dependencies
+openai==1.71.0
+python-dotenv==1.1.0
+llama-parse==0.6.4.post1
+llama-index==0.12.28
+llama-index-llms-openai==0.3.30
+llama-index-embeddings-openai==0.3.1
+
+# Supporting libraries
+pydantic==2.10.5
+pydantic_core==2.27.2
+typing_extensions==4.12.2
+python-dateutil==2.9.0.post0
+tqdm==4.67.1
+requests==2.32.3
+urllib3==2.3.0
+certifi==2024.12.14
+charset-normalizer==3.4.1
+idna==3.10
+
+# Document processing
+python-docx==1.1.2
+python-pptx==1.0.2
+PyPDF2==3.0.1
+pypdf==5.4.0
+openpyxl==3.1.5
+xlrd==2.0.1
+XlsxWriter==3.2.2 
